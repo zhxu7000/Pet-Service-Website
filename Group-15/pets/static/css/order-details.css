@@ -1,0 +1,30 @@
+.title{
+    font-weight: 700;
+    font-size: 20px;
+}
+.delivered-tip{
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: green;
+    font-weight: 600;
+}
+ .el-step__head.is-success {
+  color: rgb(52, 158, 250);
+  border-color: rgb(52, 158, 250);
+}
+.el-step__title.is-success {
+    font-weight: bold;
+    color: rgb(52, 158, 250);
+}
+ .el-step__description.is-success {
+    color: rgb(52, 158, 250);
+}
+.traoking-details{
+    font-size: 16px;
+    font-weight: 600;
+    margin: 20px 0 5px 0 ;
+}
+.phone-number{
+    color: #ccc;
+    margin-right: 20px;
+}

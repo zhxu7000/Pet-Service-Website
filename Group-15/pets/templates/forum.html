@@ -1,0 +1,162 @@
+﻿
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .msg_block_control {
+            display: flex;
+            align-items: center;
+            margin: 4px 8px;
+            position: relative;
+        }
+
+        .msg_time {
+            font-size: 12px;
+            color: grey;
+        }
+
+        .msg_content {
+            margin-left: 20px;
+        }
+
+        .msg_name {
+            font-size: 16px;
+        }
+
+        .msg_reply {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 12px;
+            color: #ff7820;
+        }
+    </style>
+
+    <main class="main-content">
+        <!--== Start Page Header Area Wrapper ==-->
+        <div class="page-header-area" data-bg-img="{% static 'img/photos/background.jpg' %}">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-header-content">
+                            <h2 class="title">Forum</h2>
+                            <nav class="breadcrumb-area">
+                                <ul class="breadcrumb">
+                                    <li><a href="/">Home</a></li>
+                                    <li class="breadcrumb-sep">//</li>
+                                    <li>Forum</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--== End Page Header Area Wrapper ==-->
+
+        <!--== Start Blog Area Wrapper ==-->
+        <section class="shopping-cart-area">
+            <div class="container">
+
+                <div class="card">
+                    {#            标题#}
+                    <div class="card-header">
+                        Forum
+                    </div>
+
+                    {#            内容#}
+                    <div class="card-body">
+                        <form id="message-form" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {% if request.GET.to_user_id %}
+                                    {# 隐藏表单传入 被回复的人id #}
+                                    <input type="hidden" name="to_user_id" value="{{ request.GET.to_user_id }}">
+
+                                    Reply：{{ request.GET.to_user_name }}
+
+                                    <a href="/forum">cancle</a>
+                                {% endif %}
+                                <textarea name="content" class="form-control" rows="3"
+                                          placeholder="leave your message..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm form-control" style="margin-top: 8px">Send</button>
+                        </form>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <ul id="message-list" class="list-group">
+                            {% for msg_item in li_forum %}
+                                <li class="list-group-item">
+                                    {# 时间#}
+                                    <div class="msg_time">{{ msg_item.created_at | date:'Y-m-d H:i:s' }}</div>
+                                    {# 回复按钮，不是自己回自己才出现 #}
+                                    {% if request.session.user.id != msg_item.from_user.id %}
+                                        <a class="msg_reply"
+                                           href="/forum?to_user_id={{ msg_item.from_user.id }}&to_user_name={{ msg_item.from_user.id }}">
+                                            Reply
+                                        </a>
+                                    {% endif %}
+                                    <!-- 这里应该有消息内容的显示 -->
+                                    <div class="msg_block_control">
+                                        {# 发送人#}
+                                        <img src="{{ msg_item.from_user.avatar_img.url }}" alt=""
+                                             class="avatar_img_mini"/>
+                                        <span class="msg_name">{{ msg_item.from_user.username }}</span>
+                                        {% if msg_item.to_user %}
+                                            {# 接收人 #}
+                                            <span style="color: #2443e9;font-weight: 600;font-size: 12px;margin: 0 8px">Reply</span>
+                                            <img src="{{ msg_item.to_user.avatar_img.url }}" alt=""
+                                                 class="avatar_img_mini"/>
+                                            <span class="msg_name">{{ msg_item.to_user.username }}</span>
+                                        {% endif %}
+                                        :
+                                        {# 内容 #}
+                                        <div class="msg_content">{{ msg_item.content }}</div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </section>
+        <!--== End Blog Area Wrapper ==-->
+    </main>
+
+    <script>
+       $(document).ready(function() {
+            $('#message-form').submit(function(event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+                var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/forum/post_message/',
+                    data: formData,
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader('X-CSRFToken', csrfToken);
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        if (data.success) {
+                            // 将新消息插入到消息列表的顶部
+                            $('#message-list').prepend(data.html);
+                            $('textarea[name="content"]').val('');
+                        } else {
+                            alert('Error: ' + data.error_message);
+                        }
+                    },
+                    error: function() {
+                        alert('An error occurred while sending the message.');
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock content %}

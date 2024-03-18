@@ -1,0 +1,197 @@
+﻿{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+    <main class="main-content" id="booking">
+        <!--== Start Page Header Area Wrapper ==-->
+        <div class="page-header-area" data-bg-img="{% static 'img/photos/background.jpg' %}">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-header-content">
+                            <h2 class="title">Booking Service</h2>
+                            <nav class="breadcrumb-area">
+                                <ul class="breadcrumb">
+                                    <li><a href="index.html">Home</a></li>
+                                    <li class="breadcrumb-sep">//</li>
+                                    <li>Booking Service</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--== End Page Header Area Wrapper ==-->
+        <section class="product-area" style="margin-top: 40px">
+            <section class="product-area">
+                <div class="container my_box cart-totals-wrap">
+                    <form method="POST" action="/service_booking/{{ service.id }}">
+                        {% csrf_token %}
+
+                        <div>
+                            <h4 class="my_title_with_line">Service Info: </h4>
+
+                            <div class="shop-top-bar">
+                                <div class="my_flex_start">
+                                    <img src="{{ service.image.url }}" class="my_img" alt="">
+                                    <div style="margin-left: 40px">
+                                        <h5>{{ service.title }}</h5>
+                                        <div>Category: {{ service.category_name }}</div>
+                                        <div>Seller: {{ service.seller.username }}</div>
+                                        <div>Desc: {{ service.desc }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div>
+                            <h4 class="my_title_with_line">Booking Info:</h4>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="shop-top-bar">
+                                        <span>Appointment time:</span>
+                                        <!--  :locale="locale" -->
+                                        <el-date-picker
+                                                v-model="time"
+                                                type="datetime"
+                                                name="appointment_time"
+                                                placeholder="Select date and time">
+                                        </el-date-picker>
+                                    </div>
+                                    <div class="shop-top-bar">
+                                        <span>Select the dog :</span>
+                                        <input type="hidden" :value="dogValue" name=pet_id">
+
+                                        <select name="pet_id" class="form-control" style="width: 200px">
+                                            <option selected disabled value>-- select a pet --
+                                            </option>
+                                            {% for pet_item in li_my_pets %}
+                                                <option value="{{ pet_item.id }}">{{ pet_item.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="my_title_with_line">Total:</h4>
+                            <div class="my_flex_end my_total_price shop-top-bar">${{ service.price }}</div>
+                        </div>
+
+                        <div class="my_flex_end">
+                            <button type="submit" class="checkout-button">Proceed to checkout</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </section>
+
+    </main>
+
+    <!--=======================Javascript============================-->
+
+    <script type="text/javascript" src="assets/js/en.js"></script>
+    <script type="text/javascript">
+        new Vue({
+            el: "#booking",
+            data: {
+                serviceName: "",
+                time: null,
+                dogValue: "",
+                input3: "",
+                trainer: "1",
+                dogLists: [
+                    {value: 'Anna', label: "Anna"},
+                    {value: 'Laura', label: "Laura"},
+                ],
+                options: [
+                    {
+                        value: "Dog maintenance",
+                        label: "Dog maintenance",
+                        children: [
+                            {
+                                value: "Nursing bath",
+                                label: "Nursing bath",
+                            },
+                            {
+                                value: "Foot trimming",
+                                label: "Foot trimming",
+                            },
+                            {
+                                value: "Cleaning ears",
+                                label: "Cleaning ears",
+                            },
+                            {
+                                value: "Insect repellent",
+                                label: "Insect repellent",
+                            },
+
+                        ],
+                    },
+                    {
+                        value: "Designing of styling",
+                        label: "Designing of styling",
+                    },
+                    {
+                        value: "Exercise/sports",
+                        label: "Exercise/sports",
+                        children: [
+                            {
+                                value: "Taking a walk",
+                                label: "Taking a walk",
+                            },
+                            {
+                                value: "High-intensity exercise",
+                                label: "High-intensity exercise",
+                            },
+                            {
+                                value: "Swimming training",
+                                label: "Swimming training",
+                            },
+                        ],
+                    },
+                    {
+                        value: "Teaching/Instruction",
+                        label: "Teaching/Instruction",
+                        children: [
+                            {
+                                value: "Obedience training",
+                                label: "Obedience training",
+                            },
+                            {
+                                value: "Agility training(basic)",
+                                label: "Agility training(basic)",
+                            },
+                            {
+                                value: "Agility training(advanced)",
+                                label: "Agility training(advanced)",
+                            },
+                            {
+                                value: "Basic desensitization training",
+                                label: "Basic desensitization training",
+                            },
+                            {
+                                value: "Training for food aggression",
+                                label: "Training for food aggression",
+                            },
+                            {
+                                value: "econstruction service",
+                                label: "econstruction service",
+                            },
+                        ],
+                    },
+                ],
+            },
+        });
+        var locale = ELEMENT.lang.en
+        Vue.use(ELEMENT, {locale})
+    </script>
+
+
+{% endblock content %}

@@ -1,0 +1,128 @@
+﻿{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: '#content',
+            {#width: 600,#}
+            height: 500,
+            plugins: [
+                'advlist autolink link image lists charmap print preview hr anchor pagebreak',
+                'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+                'table emoticons template paste help'
+            ],
+            toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
+                'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+                'forecolor backcolor emoticons | help',
+            menu: {
+                favs: {title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons'}
+            },
+            menubar: 'favs file edit view insert format tools table help',
+            {#content_css: 'css/content.css',#}
+            // 粘贴图片时，上传文件
+            paste_data_images: true,
+            {#images_upload_url: '/community_editor_image_upload/'#}
+            images_upload_handler: function upload_editor_img(blobInfo, success, failure, progress) {
+                var xhr, formData;
+
+                xhr = new XMLHttpRequest();
+                xhr.withCredentials = false;
+                xhr.open('POST', '/community_editor_image_upload/');
+
+                xhr.upload.onprogress = function (e) {
+                    progress(e.loaded / e.total * 100);
+                };
+
+                xhr.onload = function () {
+                    var json;
+
+                    if (xhr.status === 403) {
+                        failure('HTTP Error: ' + xhr.status, {remove: true});
+                        return;
+                    }
+
+                    if (xhr.status < 200 || xhr.status >= 300) {
+                        failure('HTTP Error: ' + xhr.status);
+                        return;
+                    }
+
+                    json = JSON.parse(xhr.responseText);
+
+                    if (!json || typeof json.location != 'string') {
+                        failure('Invalid JSON: ' + xhr.responseText);
+                        return;
+                    }
+
+                    success(json.location);
+                };
+
+                xhr.onerror = function () {
+                    failure('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+                };
+
+                formData = new FormData();
+                formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+                xhr.send(formData);
+            }
+        });
+    </script>
+{% endblock head %}
+
+{% block content %}
+
+    <main class="main-content">
+        <!--== Start Page Header Area Wrapper ==-->
+        <div class="page-header-area" data-bg-img="{% static 'img/photos/background.jpg' %}">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-header-content">
+                            <h2 class="title">Community</h2>
+                            <nav class="breadcrumb-area">
+                                <ul class="breadcrumb">
+                                    <li><a href="/">Home</a></li>
+                                    <li class="breadcrumb-sep">//</li>
+                                    <li>Community</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--== End Page Header Area Wrapper ==-->
+
+        <!--== Start Blog Area Wrapper ==-->
+        <section class="shopping-cart-area">
+            <div class="container">
+                <h4>Community</h4>
+                <form method="post">
+                    {% csrf_token %}
+
+                    {#            内容#}
+                    <div class="card-body">
+                        <div style="margin-bottom: 16px">
+                            <label for="title">Title: </label>
+                            <input type="text" id="title" name="title" class="form-control" required>
+                        </div>
+
+                        <div>
+                            <label for="content">Content: </label>
+                            <textarea id="content" name="content"></textarea>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary btn-sm form-control" style="margin-top: 8px">Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!--== End Blog Area Wrapper ==-->
+    </main>
+{% endblock content %}

@@ -1,0 +1,231 @@
+﻿{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <style>
+        .my_tr_line {
+
+        }
+
+        .my_tr_line:hover {
+            background-color: #eeeeee;
+        }
+    </style>
+
+    <main class="main-content">
+        <!--== Start Page Header Area Wrapper ==-->
+        <div class="page-header-area" data-bg-img="{% static 'img/photos/background.jpg' %}">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-header-content">
+                            <h2 class="title">Services</h2>
+                            <nav class="breadcrumb-area">
+                                <ul class="breadcrumb">
+                                    <li><a href="/">Home</a></li>
+                                    <li class="breadcrumb-sep">//</li>
+                                    <li>Services</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--== End Page Header Area Wrapper ==-->
+
+        <!--== Start Product Area Wrapper ==-->
+        <section class="product-area" id="services_block">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="shop-top-bar">
+                            <div class="shop-top-left">
+                                <p class="pagination-line"><a href="shop.html">{{ services.count }}</a> Services Found
+                                </p>
+                            </div>
+                            <div class="shop-top-right">
+                                {#                                <div class="shop-sort">#}
+                                {#                                    <span>Sort By :</span>#}
+                                {#                                    <select class="form-select" aria-label="Sort select example">#}
+                                {#                                        <option selected>Default</option>#}
+                                {#                                        <option value="1">Popularity</option>#}
+                                {#                                        <option value="2">Average Rating</option>#}
+                                {#                                        <option value="3">Newsness</option>#}
+                                {#                                        <option value="4">Price Low to High</option>#}
+                                {#                                    </select>#}
+                                {#                                </div>#}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-between">
+                    <div class="col-xl-3">
+                        <div class="shop-sidebar">
+
+                            <div class="shop-sidebar-search">
+                                <div class="sidebar-search-form">
+                                    <form action="/services/">
+                                        {% csrf_token %}
+
+                                        <input type="search" name="keyword" placeholder="Search Here">
+                                        <button type="submit"><i class="fa fa-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                            <div class="shop-widget shop-sidebar-category">
+                                <h4 class="sidebar-title">Categoris</h4>
+
+                                <el-cascader
+                                        style="display: block"
+                                        v-model="serviceName"
+                                        :options="options"
+                                        placeholder="Please select"
+                                        @change="handleChange"
+                                ></el-cascader>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-9">
+                        <div class="shopping-cart-form table-responsive">
+                            <table class="table text-center border">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Img</th>
+                                    <th>Service</th>
+                                    <th>Seller</th>
+                                    <th>Desc</th>
+                                    <th>Category Name</th>
+                                    <th>Price</th>
+                                    <th>Chose</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for service_item in services.list %}
+                                    <tr class="my_tr_line">
+                                        <td>{{ forloop.counter }}</td>
+                                        <td><img src="{{ service_item.image.url }}" class="my_img"/></td>
+                                        <td>{{ service_item.title }}</td>
+                                        <td>{{ service_item.seller.username }}</td>
+                                        <td>{{ service_item.desc }}</td>
+                                        <td>{{ service_item.category_name }}</td>
+                                        <td>
+                                            <span class="price">${{ service_item.price }}</span>
+                                        </td>
+                                        <td>
+                                            <a href="/service_booking/{{ service_item.id }}">
+                                                <button class="btn btn-warning btn-sm">Book</button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <!--== End Product Area Wrapper ==-->
+    </main>
+
+    <script type="text/javascript">
+        new Vue({
+            el: "#services_block",
+            data: {
+                serviceName: "",
+                options: [
+                    {
+                        value: "Dog maintenance",
+                        label: "Dog maintenance",
+                        children: [
+                            {
+                                value: "Nursing bath",
+                                label: "Nursing bath",
+                            },
+                            {
+                                value: "Foot trimming",
+                                label: "Foot trimming",
+                            },
+                            {
+                                value: "Cleaning ears",
+                                label: "Cleaning ears",
+                            },
+                            {
+                                value: "Insect repellent",
+                                label: "Insect repellent",
+                            },
+
+                        ],
+                    },
+                    {
+                        value: "Designing of styling",
+                        label: "Designing of styling",
+                    },
+                    {
+                        value: "Exercise/sports",
+                        label: "Exercise/sports",
+                        children: [
+                            {
+                                value: "Taking a walk",
+                                label: "Taking a walk",
+                            },
+                            {
+                                value: "High-intensity exercise",
+                                label: "High-intensity exercise",
+                            },
+                            {
+                                value: "Swimming training",
+                                label: "Swimming training",
+                            },
+                        ],
+                    },
+                    {
+                        value: "Teaching/Instruction",
+                        label: "Teaching/Instruction",
+                        children: [
+                            {
+                                value: "Obedience training",
+                                label: "Obedience training",
+                            },
+                            {
+                                value: "Agility training(basic)",
+                                label: "Agility training(basic)",
+                            },
+                            {
+                                value: "Agility training(advanced)",
+                                label: "Agility training(advanced)",
+                            },
+                            {
+                                value: "Basic desensitization training",
+                                label: "Basic desensitization training",
+                            },
+                            {
+                                value: "Training for food aggression",
+                                label: "Training for food aggression",
+                            },
+                            {
+                                value: "econstruction service",
+                                label: "econstruction service",
+                            },
+                        ],
+                    },
+                ],
+            },
+            methods: {
+                handleChange() {
+                    {#alert(this.serviceName)#}
+                    window.location.href = '/services/?category_name=' + this.serviceName
+                }
+            }
+        })
+    </script>
+
+{% endblock content %}

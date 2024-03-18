@@ -1,0 +1,225 @@
+{% extends '_link.html' %}
+
+{% load static %}
+
+
+{% block nav %}
+    <style>
+        .nav_right_dropdown {
+            background-color: white !important;
+            cursor: pointer;
+        }
+
+        .nav_right_dropdown > li > a {
+            color: black !important;
+            display: block !important;
+            font-weight: 400 !important;
+            font-size: 14px !important;
+            letter-spacing: inherit !important;
+            text-transform: capitalize !important;
+        }
+
+        .nav_right_dropdown > li > a:hover {
+            color: #721b65 !important;
+            background-color: rgba(173, 181, 189, 0.15) !important;
+        }
+
+        .nav_right_dropdown > li a:hover {
+            background-color: #fff !important;
+        }
+    </style>
+
+    <!--== Start Preloader Content ==-->
+    <div class="preloader-wrap">
+        <div class="preloader">
+            <div class="dog-head"></div>
+            <div class="dog-body"></div>
+        </div>
+    </div>
+    <!--== End Preloader Content ==-->
+
+    <!--== Start Header Wrapper ==-->
+    <header class="header-area header-default" data-bg-img="{% static 'img/photos/header-bg.webp' %}">
+        <div class="container">
+            <div class="row no-gutter align-items-center position-relative">
+                <div class="col-12">
+                    <div class="header-align">
+                        <div class="header-align-start">
+                            <div class="header-logo-area">
+                                <a href="/">
+                                    <span class="logo-main logo-title">Dogxercise</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="header-align-center">
+                            <div class="header-navigation-area position-relative">
+                                <ul class="main-menu nav">
+                                    <li class="has-submenu"><a href="/"><span>Home</span></a></li>
+                                    <li class="has-submenu"><a href="/shop"><span>Shop</span></a></li>
+                                    <li class="has-submenu"><a href="/services"><span>Services</span></a></li>
+                                    <li class="has-submenu"><a href="/forum"><span>Forum</span></a></li>
+                                    <li class="has-submenu"><a href="/community_list"><span>Community</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="header-align-end">
+                            <div class="header-action-area">
+                                {# 购物车，有登录，才显示购按钮 #}
+                                {% if request.session.user %}
+                                    <div class="shopping-cart">
+                                        <button class="shopping-cart-btn" type="button" data-bs-toggle="offcanvas"
+                                                data-bs-target="#AsideOffcanvasCart" aria-controls="AsideOffcanvasCart">
+                                            <i class="pe-7s-shopbag icon"></i>
+                                            <sup class="shop-count">{{ cart_info.count }}</sup>
+                                        </button>
+                                    </div>
+                                {% endif %}
+
+                                {#个人中心#}
+                                <ul class="nav" style="margin-left: 8px">
+                                    {% if request.session.user %}
+                                        <li class="has-submenu"><a href="#/">
+                                            <span
+                                                    style="color: white;text-decoration: underline">{{ request.session.user.username }}</span></a>
+                                            <ul class="submenu-nav nav_right_dropdown">
+                                                <li><a href="/account/"><span>Account Home</span></a></li>
+                                                <li><a href="/order/"><span>Order List</span></a></li>
+                                                <li><a href="/bookings/"><span>Booking List</span></a></li>
+{#                                                <li><a href="add-schedules.html"><span>Schedule</span></a></li>#}
+                                                <li><a href="/user/logout/"><span>Logout</span></a></li>
+                                            </ul>
+                                        </li>
+                                    {% else %}
+                                        <div class="shopping-account">
+                                            <a class="shopping-account-btn" href="/user/login" style="font-size: 20px">
+                                                Please Login!
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                </ul>
+
+                                {# 小屏幕-侧边导航栏#}
+                                <button class="btn-menu" type="button" data-bs-toggle="offcanvas"
+                                        data-bs-target="#AsideOffcanvasMenu" aria-controls="AsideOffcanvasMenu">
+                                    <i class="pe-7s-menu"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!--== End Header Wrapper ==-->
+{% endblock nav %}
+
+
+
+{% block content %}
+
+{% endblock content %}
+
+
+{% block other %}
+
+    <footer class="footer-area">
+        <div class="footer-main">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+                    <div class="col-md-8 col-lg-4">
+                        <div class="widget-item widget-about">
+                            <h4 class="widget-title">About Us</h4>
+                            <p class="desc">We are a comprehensive pet website offering high-quality pet supplies, appointment-based services, and a platform for sharing pet care experiences and insights.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-lg-4">
+                        <div class="widget-item nav-menu-item1">
+                            <h4 class="widget-title">Information</h4>
+                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse"
+                                data-bs-target="#widgetId-1">Information</h4>
+                            <div id="widgetId-1" class="collapse widget-collapse-body">
+                                <div class="collapse-body">
+                                    <div class="widget-menu-wrap">
+                                        <ul class="nav-menu">
+                                            <li><a href="/our_team">Our Team</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-lg-4">
+                        <div class="widget-item">
+                            <h4 class="widget-title">Contact Info:</h4>
+                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse"
+                                data-bs-target="#widgetId-3">Contact Info:</h4>
+                            <div id="widgetId-3" class="collapse widget-collapse-body">
+                                <div class="collapse-body">
+                                    <div class="widget-contact-info">
+                                        <p class="contact-info-desc">If you have any question please contact us with
+                                            <a href="mailto://Dogxercise@gmail.com">Dogxercise@gmail.com</a></p>
+                                        <div class="contact-item">
+                                            <div class="icon">
+                                                <i class="pe-7s-map-marker"></i>
+                                            </div>
+                                            <div class="info">
+                                                <p>Contact address <br>123, dogxercise central center.</p>
+                                            </div>
+                                        </div>
+                                        <div class="contact-item phone-info">
+                                            <div class="icon">
+                                                <i class="pe-7s-phone"></i>
+                                            </div>
+                                            <div class="info">
+                                                <p><span>Contact number</span> <br><a href="tel://0180333251">+0 180
+                                                    333 251</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+
+    <div id="scroll-to-top" class="scroll-to-top"><span class="fa fa-angle-up"></span></div>
+
+    {# 侧边栏弹出-购物车#}
+    <aside class="aside-cart-wrapper offcanvas offcanvas-end" tabindex="-1" id="AsideOffcanvasCart"
+           aria-labelledby="offcanvasRightLabel">
+        {# 头部 #}
+        <div class="offcanvas-header">
+            <button class="btn-aside-cart-close" onclick="location.href='/cart_list/'" data-bs-dismiss="offcanvas"
+                    aria-label="Close">My Cart <i
+                    class="fa fa-chevron-right"></i></button>
+        </div>
+        {# 主体 #}
+        <div class="offcanvas-body" style="padding: 20px 50px">
+            <ul class="aside-cart-product-list" style="max-height: 400px;overflow-y: auto;margin-bottom: 12px">
+                {% for cart_item in cart_info.list %}
+                    <li class="aside-product-list-item">
+                        <a href="/shop_details/{{ cart_item.goods.id }}">
+                            <img src="{{ cart_item.goods.image.url }}" width="60" height="50"
+                                 alt="Image-HasTech">
+                            <span class="product-title">{{ cart_item.goods.title }}</span>
+                        </a>
+                        <span class="product-price">${{ cart_item.goods.price }} x {{ cart_item.count }}</span>
+                    </li>
+                {% endfor %}
+
+            </ul>
+            <p class="cart-total" style="margin-bottom: 12px"><span>Subtotal:</span><span
+                    class="amount">${{ cart_info.total }}</span></p>
+            {# 查看购物车详情 #}
+            <a class="btn-total" href="/cart_list/">View cart</a>
+            {# 直接 结算 #}
+            <a class="btn-total" href="/checkout/">Checkout</a>
+        </div>
+    </aside>
+
+
+{% endblock other %}

@@ -1,0 +1,318 @@
+﻿{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <!--wrapper start-->
+    <div class="wrapper">
+
+        <main class="main-content">
+            <!--== Start Page Header Area Wrapper ==-->
+            <div class="page-header-area" data-bg-img="{% static 'img/photos/background.jpg' %}">
+                <div class="container pt--0 pb--0">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-header-content">
+                                <h2 class="title">Products</h2>
+                                <nav class="breadcrumb-area">
+                                    <ul class="breadcrumb">
+                                        <li><a href="index.html">Home</a></li>
+                                        <li class="breadcrumb-sep">//</li>
+                                        <li>Products</li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--== End Page Header Area Wrapper ==-->
+
+            <!--== Start Product Single Area Wrapper ==-->
+            <section class="product-area product-single-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="product-single-item">
+                                <div class="row">
+                                    {# 左侧 图片 #}
+                                    <div class="col-lg-6">
+                                        <!--== Start Product Thumbnail Area ==-->
+                                        <div class="product-single-thumb">
+                                            <div class="swiper single-product-thumb single-product-thumb-slider">
+                                                <div class="swiper-wrapper">
+                                                    {#                                                    主图片#}
+                                                    <div class="swiper-slide">
+                                                        <a class="lightbox-image" data-fancybox="gallery"
+                                                           href="assets/img/shop/product-single/1.webp">
+                                                            <img src="{{ details.image.url }}" width="570"
+                                                                 height="675" alt="Image-HasTech">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {# 底部预览通 滑动组件#}
+                                            <div class="product-single-swiper-wrap position-relative">
+                                                <div class="swiper single-product-nav single-product-nav-slider">
+                                                    <div class="swiper-wrapper">
+                                                    </div>
+                                                </div>
+                                                <!--== Add Swiper Arrows ==-->
+                                                <div class="single-swiper-btn-wrap">
+                                                    <div class="swiper-btn-prev">
+                                                        <i class="fa fa-angle-left"></i>
+                                                    </div>
+                                                    <div class="swiper-btn-next">
+                                                        <i class="fa fa-angle-right"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--== End Product Thumbnail Area ==-->
+                                    </div>
+                                    {# 右侧 数据 #}
+                                    <div class="col-lg-6">
+                                        <!--== Start Product Info Area ==-->
+                                        <div class="product-single-info">
+                                            {# ———— 标题 ———— #}
+                                            <h3 class="main-title"
+                                                style="text-decoration: underline">{{ details.title }}</h3>
+                                            <div class="prices" style="color: #ff3636;font-size: 20px">
+                                                <span class="price">${{ details.price }}</span>
+                                            </div>
+                                            <hr>
+                                            {# ———— 描述 ———— #}
+                                            <p>{{ details.desc }}</p>
+                                            <div class="my_small_text">{{ details.created_at }}</div>
+                                            <div class="product-single-meta">
+                                                <ul>
+                                                    <li><span>Categories:</span>
+                                                        <a>{{ details.category }}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <form action="/cart_add/" method="post">
+                                                {% csrf_token %}
+                                                <div class="product-quick-action">
+
+                                                    <!-- 成功后的重定向页面 设置为当前页面 -->
+                                                    <input type="hidden" name="redirect_page"
+                                                           value="/shop_details/{{ details.id }}">
+
+                                                    <input type="hidden" name="id" value="{{ details.id }}">
+
+                                                    <div class="qty-wrap">
+                                                        <div class="pro-qty">
+                                                            <input type="text" title="Quantity" value="01" name="count">
+                                                        </div>
+                                                    </div>
+                                                    <button type="submit" class="btn-product-cart"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#action-CartAddModal">
+                                                        Add To Cart
+                                                    </button>
+                                                </div>
+                                            </form>
+                                            <div class="product-review-tabs-content">
+                                                <ul class="nav product-tab-nav" id="ReviewTab" role="tablist">
+                                                    <li role="presentation">
+                                                        <a class="active" id="description-tab" data-bs-toggle="pill"
+                                                           href="#description" role="tab" aria-controls="description"
+                                                           aria-selected="false">Description</a>
+                                                    </li>
+                                                    <li role="presentation">
+                                                        <a id="reviews-tab" data-bs-toggle="pill" href="#reviews"
+                                                           role="tab" aria-controls="reviews" aria-selected="false">Reviews
+                                                            ({{ count_comment }})</a>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content product-tab-content" id="ReviewTabContent">
+                                                    <div class="tab-pane fade show active" id="description"
+                                                         role="tabpanel"
+                                                         aria-labelledby="description-tab">
+                                                        <div class="product-description">
+                                                            <p>{{ details.desc }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="reviews" role="tabpanel"
+                                                         aria-labelledby="reviews-tab">
+                                                        <div class="product-review-content">
+                                                            <div class="comment-author">
+                                                                {% for comment_item in li_comment %}
+                                                                    <div class="comment-content">
+                                                                        <h4 class="title">
+                                                                            <span>{{ comment_item.user.username }}</span>
+                                                                            - {{ comment_item.created_at }}</h4>
+                                                                        <p class="desc">{{ comment_item.content }}</p>
+                                                                    </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--== End Product Info Area ==-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--== End Product Single Area Wrapper ==-->
+
+            <!-- 这里可以写成推荐算法，推荐相关的产品
+            <section class="product-area product-default-area">
+                <div class="container pt--0">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-title shape-center text-center">
+                                <h5 class="sub-title">Best PRODUCT</h5>
+                                <h2 class="title">Related Products</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-3">
+
+                            <div class="product-item">
+                                <div class="product-thumb">
+                                    <a href="single-product.html">
+                                        <img src="assets/img/shop/5.webp" width="270" height="320" alt="Image-HasTech">
+                                    </a>
+                                </div>
+                                <div class="product-info">
+                                    <h4 class="title"><a href="single-product.html">Friendship training</a></h4>
+                                    <div class="prices">
+                                        <span class="price">$245.00</span>
+                                    </div>
+                                </div>
+                                <div class="product-action">
+                                    <button type="button" class="btn-product-wishlist" data-bs-toggle="modal"
+                                            data-bs-target="#action-WishlistModal">
+                                        <i class="pe-7s-like"></i>
+                                    </button>
+                                    <div class="product-action-links">
+                                        <button type="button" class="btn-product-cart" data-bs-toggle="modal"
+                                                data-bs-target="#action-CartAddModal">
+                                            <i class="pe-7s-shopbag"></i>
+                                        </button>
+                                        <button type="button" class="btn-product-quick-view" data-bs-toggle="modal"
+                                                data-bs-target="#action-QuickViewModal">
+                                            <i class="pe-7s-look"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+
+                            <div class="product-item">
+                                <div class="product-thumb">
+                                    <a href="single-product.html">
+                                        <img src="assets/img/shop/6.webp" width="270" height="320" alt="Image-HasTech">
+                                    </a>
+                                </div>
+                                <div class="product-info">
+                                    <h4 class="title"><a href="single-product.html">Pet Birthday Party</a></h4>
+                                    <div class="prices">
+                                        <span class="price">$330.00</span>
+                                    </div>
+                                </div>
+                                <div class="product-action">
+                                    <button type="button" class="btn-product-wishlist" data-bs-toggle="modal"
+                                            data-bs-target="#action-WishlistModal">
+                                        <i class="pe-7s-like"></i>
+                                    </button>
+                                    <div class="product-action-links">
+                                        <button type="button" class="btn-product-cart" data-bs-toggle="modal"
+                                                data-bs-target="#action-CartAddModal">
+                                            <i class="pe-7s-shopbag"></i>
+                                        </button>
+                                        <button type="button" class="btn-product-quick-view" data-bs-toggle="modal"
+                                                data-bs-target="#action-QuickViewModal">
+                                            <i class="pe-7s-look"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+
+                            <div class="product-item">
+                                <div class="product-thumb">
+                                    <a href="single-product.html">
+                                        <img src="assets/img/shop/7.webp" width="270" height="320" alt="Image-HasTech">
+                                    </a>
+                                </div>
+                                <div class="product-info">
+                                    <h4 class="title"><a href="single-product.html">Group walks</a></h4>
+                                    <div class="prices">
+                                        <span class="price">$50.00</span>
+                                    </div>
+                                </div>
+                                <div class="product-action">
+                                    <button type="button" class="btn-product-wishlist" data-bs-toggle="modal"
+                                            data-bs-target="#action-WishlistModal">
+                                        <i class="pe-7s-like"></i>
+                                    </button>
+                                    <div class="product-action-links">
+                                        <button type="button" class="btn-product-cart" data-bs-toggle="modal"
+                                                data-bs-target="#action-CartAddModal">
+                                            <i class="pe-7s-shopbag"></i>
+                                        </button>
+                                        <button type="button" class="btn-product-quick-view" data-bs-toggle="modal"
+                                                data-bs-target="#action-QuickViewModal">
+                                            <i class="pe-7s-look"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+
+                            <div class="product-item">
+                                <div class="product-thumb">
+                                    <a href="single-product.html">
+                                        <img src="assets/img/shop/8.webp" width="270" height="320" alt="Image-HasTech">
+                                    </a>
+                                </div>
+                                <div class="product-info">
+                                    <h4 class="title"><a href="single-product.html">Body check</a></h4>
+                                    <div class="prices">
+                                        <span class="price">$350.00</span>
+                                    </div>
+                                </div>
+                                <div class="product-action">
+                                    <button type="button" class="btn-product-wishlist" data-bs-toggle="modal"
+                                            data-bs-target="#action-WishlistModal">
+                                        <i class="pe-7s-like"></i>
+                                    </button>
+                                    <div class="product-action-links">
+                                        <button type="button" class="btn-product-cart" data-bs-toggle="modal"
+                                                data-bs-target="#action-CartAddModal">
+                                            <i class="pe-7s-shopbag"></i>
+                                        </button>
+                                        <button type="button" class="btn-product-quick-view" data-bs-toggle="modal"
+                                                data-bs-target="#action-QuickViewModal">
+                                            <i class="pe-7s-look"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+            -->
+        </main>
+
+    </div>
+
+{% endblock content %}

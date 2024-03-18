@@ -1,0 +1,108 @@
+﻿{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <main class="main-content">
+        <!--== Start Page Header Area Wrapper ==-->
+        <div class="page-header-area" data-bg-img="{% static 'img/photos/background.jpg' %}">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-header-content">
+                            <h2 class="title">Order</h2>
+                            <nav class="breadcrumb-area">
+                                <ul class="breadcrumb">
+                                    <li><a href="index.html">Home</a></li>
+                                    <li class="breadcrumb-sep">//</li>
+                                    <li>Order</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--== End Page Header Area Wrapper ==-->
+
+        <!--== Start Blog Area Wrapper ==-->
+        <section class="shopping-cart-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="shopping-cart-form table-responsive">
+                            <table class="table text-center">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>Price</th>
+                                    <th>Goods Info</th>
+                                    <th>Delivery Info</th>
+                                    <th>Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for order_item in orders.list %}
+                                    <tr class="tbody-item">
+                                        <td>
+                                            {{ forloop.counter }}
+                                        </td>
+                                        <td>{{ order_item.created_at }}</td>
+                                        <td class="my_total_price">${{ order_item.total_price }}</td>
+                                        <td>
+                                            <div style="text-align: left">seller: {{ order_item.seller.username }}</div>
+                                            <ul>
+                                                {% for good_item in order_item.goods_info %}
+                                                    <li class="my_li">
+                                                        <a href="/shop_details/{{ good_item.goods.id }}">
+                                                            <img src="{{ good_item.goods.image.url }}"
+                                                                 style="width: 50px;height: 40px;object-fit: cover;margin-right: 4px">
+
+                                                            <span style="text-decoration: underline;margin-right: 8px">{{ good_item.goods.title }}</span>
+                                                        </a>
+                                                        <span>${{ good_item.goods.price }} x {{ good_item.count }}</span>
+
+                                                        <button class="btn btn-link btn-sm"
+                                                                onclick="location.href='/order_comment/?oid={{ order_item.id }}&gid={{ good_item.goods.id }}'">
+                                                            Feedback
+                                                        </button>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <div>{{ order_item.delivery_info.name }}</div>
+                                            <div>{{ order_item.delivery_info.phone }}</div>
+                                        </td>
+                                        <td>{{ order_item.status_display }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                            <div style="margin: 8px 0">
+                                <script>
+                                    document.write(Pager({
+                                        totalCount: {{ orders.count }}, 		// 总条数
+                                        pageSize: 10,    			// 每页显示 n条，默认10
+                                        buttonSize: 5,   		// 显示按钮个数，默认10
+                                        pageParam: 'page',   		// 页面的参数名为'page'，默认为'page'
+                                        className: 'pagination', //分页的样式
+                                        {#prevButton: '往前',     //上一页按钮#}
+                                        {#nextButton: '往后',     //下一页按钮#}
+                                        firstButton: 'First',      //第一页按钮
+                                        lastButton: 'Last',       //最后一页按钮
+                                    }));
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--== End Blog Area Wrapper ==-->
+    </main>
+
+{% endblock content %}

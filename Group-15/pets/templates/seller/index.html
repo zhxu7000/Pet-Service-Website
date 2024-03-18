@@ -1,0 +1,91 @@
+{% extends 'seller/seller_base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container">
+
+        <div>
+            <h5>Goods Data</h5>
+            <hr>
+
+            <div class="my_flex">
+                <div class="card border-primary" style="width: 200px">
+                    <div class="card-header">
+                        Upload
+                    </div>
+                    <div class="card-body">
+                        <a href="/seller/good_list/">
+                            <h4 class="card-link">{{ goods.on_shelf }}</h4>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card border-primary" style="width: 200px">
+                    <div class="card-header">
+                        Orders Count
+                    </div>
+
+                    <div class="card-body">
+                        <a href="/seller/good_orders_list/">
+                            <h4 class="card-link">{{ goods.orders }}</h4>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card border-primary" style="width: 200px">
+                    <div class="card-header">
+                        Total Price
+                    </div>
+                    <div class="card-body">
+                        <a href="/seller/good_orders_list/">
+                            <h4 class="card-link">${{ goods.total_price }}</h4>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 80px">
+            <h5>Services Data</h5>
+            <hr>
+
+            <div class="my_flex">
+                <div class="card border-success " style="width: 200px">
+                    <div class="card-header">
+                        Upload
+                    </div>
+                    <div class="card-body">
+                        <a href="/seller/service_list/">
+                            <h4 class="card-link">{{ services.on_shelf }}</h4>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card border-success " style="width: 200px">
+                    <div class="card-header">
+                        Orders Count
+                    </div>
+
+                    <div class="card-body">
+                        <a href="/seller/service_bookings_list/">
+                            <h4 class="card-link">{{ services.bookings }}</h4>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card border-success " style="width: 200px">
+                    <div class="card-header">
+                        Total Price
+                    </div>
+                    <div class="card-body">
+                        <a href="/seller/service_bookings_list/">
+                            <h4 class="card-link">${{ services.total_price }}</h4>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

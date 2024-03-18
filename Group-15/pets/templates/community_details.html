@@ -1,0 +1,58 @@
+﻿{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <main class="main-content">
+        <!--== Start Page Header Area Wrapper ==-->
+        <div class="page-header-area" data-bg-img="{% static 'img/photos/background.jpg' %}">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-header-content">
+                            <h2 class="title">Community</h2>
+                            <nav class="breadcrumb-area">
+                                <ul class="breadcrumb">
+                                    <li><a href="/">Home</a></li>
+                                    <li class="breadcrumb-sep">//</li>
+                                    <li>Community</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--== End Page Header Area Wrapper ==-->
+
+        <!--== Start Blog Area Wrapper ==-->
+        <section class="shopping-cart-area">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="card">
+                            {#            标题#}
+                            <div class="card-header">
+                                <h4>{{ community.title }}</h4>
+                                <div>User: {{ community.user.username }}</div>
+                                <div class="my_small_text">{{ community.created_at | date:'Y-m-d H:i:s' }}</div>
+                            </div>
+
+                            {#            内容#}
+                            <div class="card-body">
+                                {% autoescape off %}
+                                    {{ community.content }}
+                                {% endautoescape %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!--== End Blog Area Wrapper ==-->
+    </main>
+{% endblock content %}

@@ -1,0 +1,95 @@
+﻿{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <main class="main-content">
+        <!--== Start Page Header Area Wrapper ==-->
+        <div class="page-header-area" data-bg-img="{% static 'img/photos/background.jpg' %}">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-header-content">
+                            <h2 class="title">Comment</h2>
+                            <nav class="breadcrumb-area">
+                                <ul class="breadcrumb">
+                                    <li><a href="index.html">Home</a></li>
+                                    <li class="breadcrumb-sep">//</li>
+                                    <li>Comment</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--== End Page Header Area Wrapper ==-->
+
+        <!--== Start Blog Area Wrapper ==-->
+        <section>
+            <div class="container">
+
+                <form action="" method="post">
+                    {% csrf_token %}
+
+                    <input type="hidden" name="good_id" value="{{ good_pay_info.goods.id }}">
+                    <input type="hidden" name="order_id" value="{{ order.id }}">
+
+                    <div class="card" style="width: 800px;margin: 0 auto">
+                        <div class="card-body">
+                            <h4 class="card-title">Order Comment</h4>
+                            <hr>
+
+                            <div>Goods:</div>
+                            <div class="my_flex">
+                                <div style="flex: 3">
+                                    <div>{{ order.created_at }}</div>
+                                    <div style="display: flex">
+                                        <a href="/shop_details/{{ good_pay_info.goods.id }}">
+                                            <img src="{{ good_pay_info.goods.image.url }}"
+                                                 style="width: 100px;height: 80px;object-fit: cover" alt="">
+                                        </a>
+                                        <div style="margin: 0 8px;padding: 8px">
+                                            <a href="/shop_details/{{ good_pay_info.goods.id }}">
+                                                <h6 class="card-subtitle mb-2 text-muted"
+                                                    style="text-decoration: underline">{{ good_pay_info.goods.title }}</h6>
+                                            </a>
+                                            <div>${{ good_pay_info.goods.price }} x {{ good_pay_info.count }}</div>
+                                            <div>Total: {{ good_pay_info.single_amount }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="flex: 2">
+                                <textarea name="content" class="form-control" cols="30" rows="3"
+                                          style="margin-bottom: 8px"></textarea>
+                                    <button type="submit" class="btn btn-success btn-sm">Submit</button>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <div>
+                                <div>My Comment:</div>
+                                <ul>
+                                    {% for comment_item in li_comment %}
+                                        <li>
+                                            <div class="my_flex_start">
+                                                <div class="my_small_text"
+                                                     style="margin-right: 16px">{{ comment_item.created_at }}</div>
+                                                <div>{{ comment_item.content }}</div>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </section>
+        <!--== End Blog Area Wrapper ==-->
+    </main>
+
+{% endblock content %}

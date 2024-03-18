@@ -1,0 +1,119 @@
+﻿{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <main class="main-content">
+        <!--== Start Page Header Area Wrapper ==-->
+        <div class="page-header-area" data-bg-img="{% static 'img/photos/background.jpg' %}">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-header-content">
+                            <h2 class="title">Bookings</h2>
+                            <nav class="breadcrumb-area">
+                                <ul class="breadcrumb">
+                                    <li><a href="index.html">Home</a></li>
+                                    <li class="breadcrumb-sep">//</li>
+                                    <li>Bookings</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--== End Page Header Area Wrapper ==-->
+
+        <!--== Start Blog Area Wrapper ==-->
+        <section class="shopping-cart-area">
+            <div class="container">
+                <h4 class="title" style="border-bottom: 1px solid #e5e5e5;margin-bottom: 16px;padding-bottom: 8px">
+                    My Booking List</h4>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="shopping-cart-form table-responsive">
+                            <table class="table text-center table-sm">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>Seller</th>
+                                    <th>Service Info</th>
+                                    <th>Price</th>
+                                    <th>Pet Info</th>
+                                    <th>Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for booking_item in bookings.list %}
+                                    <tr class="tbody-item">
+                                        <td>
+                                            {{ forloop.counter }}
+                                        </td>
+
+                                        <td>{{ booking_item.created_at }}</td>
+
+                                        <td>{{ booking_item.seller.username }}</td>
+
+                                        <td>
+                                            <ul>
+                                                <li class="my_li">
+                                                    <img src="{{ booking_item.service_info.image.url }}"
+                                                         style="width: 50px;height: 40px;object-fit: cover;margin-right: 4px">
+
+                                                    <span style="text-decoration: underline;margin-right: 8px">{{ booking_item.service_info.title }}</span>
+
+                                                </li>
+                                                <li class="my_li">
+                                                    <span>Category: {{ booking_item.service_info.category_name }}</span>
+                                                </li>
+                                                <li class="my_li">
+                                                    <span>Desc: {{ booking_item.service_info.desc }}</span>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                        <td class="my_total_price">${{ booking_item.service_info.price }}</td>
+                                        <td>
+                                            <ul>
+                                                <li class="my_li">
+                                                    <img src="{{ booking_item.pet_info.photo.url }}"
+                                                         style="width: 50px;height: 40px;object-fit: cover;margin-right: 4px">
+                                                </li>
+                                                <li class="my_li">
+                                                    {{ booking_item.pet_info.name }}
+                                                </li>
+                                            </ul>
+                                        </td>
+                                        <td>{{ booking_item.status_display }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                            <div style="margin: 8px 0">
+                                <script>
+                                    document.write(Pager({
+                                        totalCount: {{ bookings.count }}, 		// 总条数
+                                        pageSize: 10,    			// 每页显示 n条，默认10
+                                        buttonSize: 5,   		// 显示按钮个数，默认10
+                                        pageParam: 'page',   		// 页面的参数名为'page'，默认为'page'
+                                        className: 'pagination', //分页的样式
+                                        {#prevButton: '往前',     //上一页按钮#}
+                                        {#nextButton: '往后',     //下一页按钮#}
+                                        firstButton: 'First',      //第一页按钮
+                                        lastButton: 'Last',       //最后一页按钮
+                                    }));
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--== End Blog Area Wrapper ==-->
+    </main>
+
+{% endblock content %}

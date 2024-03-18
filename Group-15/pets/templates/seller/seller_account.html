@@ -1,0 +1,241 @@
+{% extends 'seller/seller_base.html' %}
+
+{% load static %}
+
+{% block content %}
+<style>
+
+    .weather-dashboard {
+        display: flex;
+        align-items: start;
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 10px;
+        width: 650px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        font-family: 'Nunito Sans', sans-serif;
+    }
+    
+    .weather-info-container {
+        flex: 1;
+    }
+    
+    .dashboard-title {
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    
+    .dashboard-meta {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        font-size: 0.9em;
+        margin-bottom: 15px;
+    }
+    
+    .weather-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .weather-icon img {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .weather-main-info .temperature {
+        font-size: 24px;
+        font-weight: bold;
+    }
+    
+    .weather-bottom {
+        margin-top: 15px;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    
+    </style>
+    <!--wrapper start-->
+
+    <main class="main-content" id="account">
+        <!--== Start Page Header Area Wrapper ==-->
+        <div class="page-header-area" data-bg-img="{% static 'img/photos/background.jpg' %}">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-header-content">
+                            <h2 class="title">Account</h2>
+                            <nav class="breadcrumb-area">
+                                <ul class="breadcrumb">
+                                    <li>Home</li>
+                                    <li class="breadcrumb-sep">//</li>
+                                    <li>Account</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--== End Page Header Area Wrapper ==-->
+
+        <!--== Start My Account Wrapper ==-->
+        <section class="my-account-area">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="myaccount-page-wrapper">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4">
+                                    <nav>
+                                        <div class="myaccount-tab-menu nav nav-tabs" id="nav-tab" role="tablist">
+                                            <button class="nav-link active" id="dashboad-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#dashboad" type="button" role="tab"
+                                                    aria-controls="dashboad"
+                                                    aria-selected="true">Dashboard
+                                            </button>
+
+                                            <button class="nav-link" id="account-info-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#account-info" type="button" role="tab"
+                                                    aria-controls="account-info"
+                                                    aria-selected="false">Seller Info
+                                            </button>
+
+                                            <button class="nav-link"
+                                                    onclick="window.location.href='/user/logout/'"
+                                                    type="button">Logout
+                                            </button>
+                                        </div>
+                                    </nav>
+                                </div>
+                                <div class="col-lg-9 col-md-8">
+                                    <div class="tab-content" id="nav-tabContent">
+                                        <div class="tab-pane fade show active" id="dashboad" role="tabpanel"
+                                             aria-labelledby="dashboad-tab">
+                                            <div class="myaccount-content">
+                                                <h3>Dashboard</h3>
+                                                <div class="welcome">
+                                                    <p>Hello, <strong>{{ request.session.seller.username }}</strong> (If
+                                                        Not! <a href="/seller/logout/" class="logout"> Logout</a>)
+                                                    </p>
+                                                </div>
+                                                <p>From your account dashboard. you can easily check & view your
+                                                    recent orders, manage your
+                                                    shipping and addresses and edit your password and
+                                                    account details.</p>
+                                                <br>
+                                                <div class="weather-dashboard">
+                                                    <div class="weather-info-container">
+                                                        <h2 class="dashboard-title">Weather</h2>
+                                                        <div class="dashboard-meta">
+                                                            <span id="currentLocation" class="location"></span>
+                                                            <span id="currentDate" class="date"></span>
+                                                            <span id="currentTime" class="time"></span>
+                                                        </div>
+                                                        <div class="weather-top">
+                                                            <div class="weather-icon">
+                                                                <img id="weatherIcon" src="" alt="Weather Icon">
+                                                            </div>
+                                                            <div class="weather-main-info">
+                                                                <span class="temperature" id="temperature"></span>°C
+                                                                <p class="description" id="description"></p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="weather-bottom">
+                                                            <div class="wind-info">
+                                                                <strong>Wind:</strong> <span id="windSpeed"></span> m/s, <span id="windDirection"></span>°
+                                                            </div>
+                                                            <div class="humidity-info">
+                                                                <strong>Humidity:</strong> <span id="humidity"></span>%
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="osmMap" style="width:300px;height:300px;margin-left:20px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane fade" id="account-info" role="tabpanel"
+                                             aria-labelledby="account-info-tab">
+                                            <div class="myaccount-content">
+                                                <h3>Seller Info</h3>
+                                                <div class="account-details-form">
+                                                    <form action="/seller_update/" method="post">
+                                                        {% csrf_token %}
+                                                        <div class="row">
+                                                            <div class="col-12" style="margin-bottom: 8px">
+                                                                <div class="form-group">
+                                                                    <label for="username">Username <span
+                                                                            class="required">*</span></label>
+                                                                    <input id="username" class="form-control"
+                                                                           value="{{ request.session.seller.username }}"
+                                                                           type="email" disabled>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-12" style="margin-bottom: 8px">
+                                                                <div class="form-group">
+                                                                    <label for="email">Email address <span
+                                                                            class="required">*</span></label>
+                                                                    <input id="email" name="email" class="form-control"
+                                                                           value="{{ request.session.seller.email }}"
+                                                                           type="email">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-12" style="margin-bottom: 8px">
+                                                                <div class="form-group">
+                                                                    <label for="age">Age<span
+                                                                            class="required">*</span></label>
+                                                                    <input id="age" name="age" class="form-control"
+                                                                           value="{{ request.session.seller.age }}"
+                                                                           type="number">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-12" style="margin-bottom: 8px">
+                                                                <div class="form-group">
+                                                                    <label for="password">Password (left blank when not
+                                                                        modified)</label>
+                                                                    <input id="password" name="password"
+                                                                           class="form-control"
+                                                                           value=""
+                                                                           type="password">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="single-input-item">
+                                                            <button class="my_btn">Update</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--== End My Account Wrapper ==-->
+
+    </main>
+
+
+    <script type="text/javascript">
+        new Vue({
+            el: "#account",
+            methods: {
+                gopath() {
+                    window.open('add-schedules.html')
+                }
+            },
+        });
+    </script>
+
+{% endblock content %}

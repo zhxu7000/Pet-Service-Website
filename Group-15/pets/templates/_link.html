@@ -1,0 +1,339 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="PAstudio - Dog Exercise Website"/>
+    <meta name="keywords" content="accessories, digital products, electronic html, modern, products, responsive"/>
+    <meta name="author" content="hastech"/>
+
+    <title>PAstudio - Dog Exercise Website</title>
+
+    <!--== Favicon ==-->
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon"/>
+
+    <!--== Google Fonts ==-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600&display=swap"
+          rel="stylesheet">
+
+    <!--== Bootstrap CSS ==-->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!--== Font Awesome Min Icon CSS ==-->
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <!--== 7 Stroke Icon CSS ==-->
+    <link href="{% static 'css/pe-icon-7-stroke.css' %}" rel="stylesheet">
+    <!--== Swiper CSS ==-->
+    <link href="{% static 'css/swiper.min.css' %}" rel="stylesheet">
+    <!--== Fancybox Min CSS ==-->
+    <link href="{% static 'css/fancybox.min.css' %}" rel="stylesheet">
+    <!--== Range Slider Min CSS ==-->
+    <link href="{% static 'css/ion.rangeSlider.min.css' %}" rel="stylesheet">
+
+    <!--== Main Style CSS ==-->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    <!-- Element Ui -->
+    <link rel="stylesheet" href="{% static 'css/element.min.css' %}"/>
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+
+
+    <!--=======================Javascript============================-->
+
+    <!--=== jQuery Min Js ===-->
+    <script src="{% static 'js/jquery-main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/vue.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/element.min.js' %}"></script>
+    <!--=== 英文支持 ===-->
+    <script src="//unpkg.com/element-ui/lib/umd/locale/en.js"></script>
+    <script>
+        ELEMENT.locale(ELEMENT.lang.en)
+    </script>
+
+    <!--=== jQuery Modernizr Min Js ===-->
+    <script src="{% static 'js/modernizr.js' %}"></script>
+    <!--=== jQuery Migration Min Js ===-->
+    <script src="{% static 'js/jquery-migrate.js' %}"></script>
+    <!--=== jQuery Popper Min Js ===-->
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <!--=== jQuery Bootstrap Min Js ===-->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!--=== jQuery Swiper Min Js ===-->
+    <script src="{% static 'js/swiper.min.js' %}"></script>
+    <!--=== jQuery Fancybox Min Js ===-->
+    <script src="{% static 'js/fancybox.min.js' %}"></script>
+    <!--=== jQuery Countdown Min Js ===-->
+    <script src="{% static 'js/countdown.js' %}"></script>
+    <!--=== jQuery Isotope Min Js ===-->
+    <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+    <!--=== jQuery Range Slider Min Js ===-->
+    <script src="{% static 'js/ion.rangeSlider.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'js/bootstrap-pager.js' %}"></script>
+
+    <!--=== Leaflet Js ===-->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    {% block head %}
+    {% endblock head %}
+</head>
+<body>
+
+<style>
+    .my_flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .my_flex_start {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .my_flex_end {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .my_btn {
+        background-color: #721b65;
+        border-color: #721b65;
+        color: #fff;
+        font-size: 13px;
+        text-transform: uppercase;
+        border-radius: 0;
+        font-weight: 600;
+        text-align: center;
+        display: block;
+        width: 100%;
+        height: 50px;
+        cursor: pointer;
+    }
+
+    .my_btn:hover {
+        color: #721b65;
+        background-color: #d8bfd8;
+        border-color: #d8bfd8;
+    }
+
+    .my_text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .my_just_2_line {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+
+    .my_just_3_line {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+    }
+
+
+    .my_img {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+    }
+
+    .my_total_price {
+        font-size: 28px !important;
+        color: purple !important;
+    }
+
+    .my_box {
+        border: 1px solid #ececec;
+    }
+
+    .my_li {
+        list-style: disc;
+        text-align: left;
+        margin: 4px 24px;
+    }
+
+    .my_small_text {
+        font-size: 12px;
+        color: #cbcbcb;
+    }
+
+    .my_title_with_line {
+        border-bottom: 1px solid #cfcfcf;
+    }
+</style>
+
+
+<!--wrapper start-->
+<div class="wrapper">
+    {#    导航栏#}
+    {% block nav %}
+    {% endblock nav %}
+
+
+
+    {% block content %}
+        content
+    {% endblock content %}
+
+    {% block other %}
+    {% endblock other %}
+
+</div>
+
+
+<!--=======================Javascript============================-->
+
+
+<!--=== jQuery Custom Js ===-->
+<script src="{% static 'js/custom.js' %}"></script>
+
+
+{#message 消息#}
+{% if messages %}
+    <div class="messages" id="msg"
+         style="z-index: 9999;position: fixed;top: 140px;right: 4px;width: 30%;min-width: 100px;opacity: 0.8">
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="rmNode()">x
+                    </button>
+                    <strong>{{ message }}</strong>
+                </div>
+            {% else %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="rmNode()">x
+                    </button>
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endif %}
+
+        {% endfor %}
+    </div>
+{% endif %}
+
+<script>
+    function rmNode() {
+        document.getElementById('msg').remove()
+    }
+</script>
+
+<script>
+    function toggleChatbot() {
+        var body = document.getElementById('chatbot-body');
+        var toggle = document.getElementById('chatbot-toggle');
+        if (body.style.display === "none" || body.style.display === "") {
+            body.style.display = "flex";
+            toggle.textContent = "[-]";
+        } else {
+            body.style.display = "none";
+            toggle.textContent = "[+]";
+        }
+    }
+
+    function sendMessageToServer(message, callback) {
+        fetch('/api/chatbot/?message=' + encodeURIComponent(message))
+            .then(response => response.json())
+            .then(data => {
+                var reply = data.reply || "Sorry, I didn't understand that.";
+                callback(reply);
+            })
+            .catch(error => {
+                console.error("Error communicating with server: ", error);
+                callback("There was an error processing your message.");
+            });
+    }
+
+    function handleChatInput() {
+        var userMessage = document.getElementById("chatInput").value;
+        if (userMessage) {
+            displayMessage(userMessage, "user");
+            sendMessageToServer(userMessage, function (reply) {
+                displayMessage(reply, "bot");
+            });
+            document.getElementById("chatInput").value = "";
+        }
+    }
+
+    function displayMessage(message, sender) {
+        var chatMessages = document.getElementById("chat-messages");
+        var messageElement = document.createElement("div");
+        messageElement.className = sender + "-message";
+        messageElement.textContent = message;
+        chatMessages.appendChild(messageElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function initializeOSMMap() {
+        var sydney = [-33.8688, 151.2093]; // Sydney
+
+        var map = L.map('osmMap').setView(sydney, 10);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker(sydney).addTo(map)
+            .bindPopup('Sydney')
+            .openPopup();
+    }
+
+    $(document).ready(function () {
+        // init OSMap
+        initializeOSMMap();
+
+        var apiKey = '932e2364dcb3744d0bd5ffe2977d0e45';
+        var city = 'Sydney';
+
+        var now = new Date();
+        var date = now.getFullYear() + "-" + (now.getMonth() + 1).toString().padStart(2, '0') + "-" + now.getDate().toString().padStart(2, '0');
+        var time = now.getHours() + ":" + now.getMinutes().toString().padStart(2, '0');
+
+        $("#currentDate").text("Date: " + date);
+        $("#currentTime").text("Time: " + time);
+
+        $.ajax({
+            url: `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`,
+            type: "GET",
+            dataType: "jsonp",
+            success: function (data) {
+                var icon = data.weather[0].icon;
+                var temp = data.main.temp;
+                var desc = data.weather[0].description;
+                var windSpeed = data.wind.speed;
+                var windDirection = data.wind.deg;
+                var humidity = data.main.humidity;
+
+                $("#weatherIcon").attr("src", `http://openweathermap.org/img/w/${icon}.png`);
+                $("#temperature").text(temp);
+                $("#description").text(desc);
+                $("#windSpeed").text(windSpeed);
+                $("#windDirection").text(windDirection);
+                $("#humidity").text(humidity);
+                $("#currentLocation").text("Location: " + city);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

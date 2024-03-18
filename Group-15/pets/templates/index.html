@@ -1,0 +1,426 @@
+﻿{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+    <style>
+        #chatbot-container {
+        z-index: 9999;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 10px 10px 0 0;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+    }
+
+    #chatbot-header {
+        background-color: #007BFF;
+        color: white;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #chatbot-body {
+        display: none;
+        background-color: #f9f9f9;
+        height: 400px;
+        flex-direction: column;
+    }
+
+    #chat-messages {
+        padding: 20px;
+        overflow-y: auto;
+        max-height: 340px;
+        flex-grow: 1;
+    }
+
+    .user-message, .bot-message {
+        padding: 10px;
+        margin: 5px;
+        border-radius: 5px;
+        max-width: 80%;
+    }
+
+    .user-message {
+        background-color: #e6f7ff;
+        align-self: flex-end;
+    }
+
+    .bot-message {
+        background-color: #f4f4f4;
+    }
+
+    #chat-input-area {
+        display: flex;
+        border-top: 1px solid #ccc;
+        background-color: white;
+        height: 50px;
+    }
+
+    #chatInput {
+        flex-grow: 1;
+        padding: 10px;
+        border: none;
+        border-top: 1px solid #ccc;
+        border-bottom-left-radius: 10px;
+        height: 100%;
+    }
+
+    #sendButton {
+        background-color: #007BFF;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-top: 1px solid #ccc;
+        border-bottom-right-radius: 10px;
+        cursor: pointer;
+    }
+
+    #sendButton:hover {
+        background-color: #0056b3;
+    }
+
+</style>
+    <main class="main-content">
+        <!--== Start Hero Area Wrapper ==-->
+        <section class="home-slider-area">
+            <div class="swiper home-slider-container default-slider-container">
+                <div class="swiper-wrapper home-slider-wrapper slider-default">
+                    <div class="swiper-slide">
+                        <div class="slider-content-area" data-bg-img="{% static 'img/slider/slider-bg.webp' %}">
+                            <div class="container">
+                                <div class="slider-container">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-sm-6 col-md-6">
+                                            <div class="slider-content">
+                                                <div class="content">
+                                                    <div class="sub-title-box">
+                                                        <h5 class="sub-title">200% Training Skills</h5>
+                                                    </div>
+                                                    <div class="title-box">
+                                                        <h2 class="title">The best comprehensive pet website</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-6">
+                                            <div class="slider-thumb mousemove">
+                                                <div class="thumb">
+                                                    <img src="{% static 'img/slider/slider1.webp' %}" width="585"
+                                                         height="579"
+                                                         alt="Image-HasTech">
+                                                    <div class="shape-one"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="slider-content-two-area" data-bg-img="{% static 'img/slider/slider2.webp' %}">
+                            <div class="container">
+                                <div class="slider-container">
+                                    <div class="row justify-content-sm-end justify-content-center align-items-center">
+                                        <div class="col-sm-8 col-md-6">
+                                            <div class="slider-content">
+                                                <div class="content">
+                                                    <div class="sub-title-box">
+                                                        <h5 class="sub-title">Up To 40% Off</h5>
+                                                    </div>
+                                                    <div class="title-box">
+                                                        <h2 class="title">The Best Serviece for Your Pet</h2>
+                                                    </div>
+                                                    <div class="desc-box">
+                                                        <p class="desc">Make your dog healthier, better able to
+                                                            understand your commands and a better companion</p>
+                                                    </div>
+                                                    <div class="btn-box">
+                                                        <a class="btn-theme text-dark" href="/services">Book Now</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="home-overlay"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--== Add Swiper Arrows ==-->
+                <div class="swiper-btn-wrap">
+                    <div class="swiper-btn-prev">
+                        <i class="pe-7s-angle-left"></i>
+                    </div>
+                    <div class="swiper-btn-next">
+                        <i class="pe-7s-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--== End Hero Area Wrapper ==-->
+
+        <!--== Start Training Category Area Wrapper ==-->
+        <section class="product-area product-category-area bg-color-f2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-title shape-center text-center">
+                            <h5 class="sub-title">SERVICE CATEGORIES</h5>
+                            <h2 class="title">Book By Category</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-gutter-43">
+                    <div class="col">
+                        <!--== Start Product Category Item ==-->
+                        <div class="product-category-item">
+                            <div class="thumb">
+                                <a href="/services/?category_name=Dog%20maintenance,Insect%20repellent"><img src="{% static 'img/shop/category/1.webp' %}" width="200"
+                                                         height="200"
+                                                         alt="Image-HasTech"></a>
+                            </div>
+                            <div class="content">
+                                <h3 class="title"><a href="/services/?category_name=Dog%20maintenance,Insect%20repellent">Insect repellent</a></h3>
+                            </div>
+                        </div>
+                        <!--== End Product Category Item ==-->
+                    </div>
+                    <div class="col">
+                        <!--== Start Product Category Item ==-->
+                        <div class="product-category-item">
+                            <div class="thumb">
+                                <a href="/services/?category_name=Teaching/Instruction,Obedience%20training"><img src="{% static 'img/shop/category/2.webp' %}" width="200"
+                                                         height="200"
+                                                         alt="Image-HasTech"></a>
+                            </div>
+                            <div class="content">
+                                <h3 class="title"><a href="/services/?category_name=Teaching/Instruction,Obedience%20training">Obedience Training</a></h3>
+                            </div>
+                        </div>
+                        <!--== End Product Category Item ==-->
+                    </div>
+                    <div class="col">
+                        <!--== Start Product Category Item ==-->
+                        <div class="product-category-item">
+                            <div class="thumb">
+                                <a href="/services/?category_name=Exercise/sports,High-intensity%20exercise"><img src="{% static 'img/shop/category/3.webp' %}" width="200"
+                                                         height="200"
+                                                         alt="Image-HasTech"></a>
+                            </div>
+                            <div class="content">
+                                <h3 class="title"><a href="/services/?category_name=Exercise/sports,High-intensity%20exercise">High-intensity exercise</a></h3>
+                            </div>
+                        </div>
+                        <!--== End Product Category Item ==-->
+                    </div>
+                    <div class="col">
+                        <!--== Start Product Category Item ==-->
+                        <div class="product-category-item">
+                            <div class="thumb">
+                                <a href="/services/?category_name=Designing%20of%20styling"><img src="{% static 'img/shop/category/4.webp' %}" width="200"
+                                                         height="200"
+                                                         alt="Image-HasTech"></a>
+                            </div>
+                            <div class="content">
+                                <h3 class="title"><a href="/services/?category_name=Designing%20of%20styling">Designing of styling</a></h3>
+                            </div>
+                        </div>
+                        <!--== End Product Category Item ==-->
+                    </div>
+                    <div class="col">
+                        <!--== Start Product Category Item ==-->
+                        <div class="product-category-item">
+                            <div class="thumb">
+                                <a href="/services/?category_name=Teaching/Instruction,Agility%20training(basic)"><img src="{% static 'img/shop/category/5.webp' %}" width="200"
+                                                         height="200"
+                                                         alt="Image-HasTech"></a>
+                            </div>
+                            <div class="content">
+                                <h3 class="title"><a href="/services/?category_name=Teaching/Instruction,Agility%20training(basic)">Agility training(basic)</a></h3>
+                            </div>
+                        </div>
+                        <!--== End Product Category Item ==-->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--== End Training Category Area Wrapper ==-->
+
+        <!--== Start Divider Area Wrapper ==-->
+        <section class="bg-theme-color position-relative z-index-1">
+            <div class="container-fluid p--0">
+                <div class="row divider-style1">
+                    <div class="col-lg-3 col-xl-4">
+                        <div class="divider-thumb divider-thumb-left">
+                            <img src="{% static 'img/photos/divider1.webp' %}" width="351" height="435"
+                                 alt="Image-HasTech">
+                            <div class="shape-circle"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xl-4">
+                        <div class="divider-content text-center">
+                            <h5 class="sub-title">Save 50% Off</h5>
+                            <h2 class="title">The highest quality service</h2>
+                            <p class="desc">Give your favourite dog the best training to make him the best and most
+                                lovable dog ever!</p>
+                            <a class="btn-theme text-dark" href="/services">Book Now</a>
+                            <img class="shape-object" src="{% static 'img/shape/object1.webp' %}" width="316"
+                                 height="302"
+                                 alt="Image-HasTech">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-xl-4">
+                        <div class="divider-thumb divider-thumb-right">
+                            <img src="{% static 'img/photos/divider2.webp' %}" width="488" height="447"
+                                 alt="Image-HasTech">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--== End Divider Area Wrapper ==-->
+
+        <!--== Start Product Area Wrapper ==-->
+        <section class="product-area product-default-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-title mb-45 mb-sm-20 shape-center text-center">
+                            <h2 class="title">New PRODUCT</h2>
+                            <h5>
+                                <a href="/shop/">more product ></a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="row isotope-grid">
+                    {% for good_item in li_goods %}
+                        <div class="col-sm-6 col-lg-3 isotope-item filter_best_sellers filter_on_sall"
+                             title="{{ good_item.desc }}">
+                            <!--== Start Product Item ==-->
+                            <div class="product-item">
+                                <div class="product-thumb">
+                                    <a href="/shop_details/{{ good_item.id }}">
+                                        <img src="{{ good_item.image.url }}"
+                                             style="width: 250px;height: 300px;object-fit: cover"
+                                             alt="Image-HasTech">
+                                    </a>
+                                </div>
+                                <div class="product-info" style="text-align: left">
+                                    <h4 class="title"><a
+                                            href="/shop_details/{{ good_item.id }}">{{ good_item.title }}</a></h4>
+                                    <div>
+                                        <span class="price">${{ good_item.price }}</span>
+                                        <span class="my_small_text"
+                                              style="margin-left: 16px">{{ good_item.category }}</span>
+                                    </div>
+                                </div>
+
+                                <form action="/cart_add/" method="post">
+                                    {% csrf_token %}
+
+                                    <input type="hidden" name="id"
+                                           value="{{ good_item.id }}">
+                                    <input type="hidden" name="count" value="1">
+                                    <input type="hidden" name="redirect_page"
+                                           value="/">
+
+                                    <div class="product-action">
+                                        <div class="product-action-links">
+                                            <button type="submit" class="btn-product-cart" data-bs-toggle="modal"
+                                                    data-bs-target="#action-CartAddModal">
+                                                <i class="pe-7s-shopbag"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <!--== End product Item ==-->
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </section>
+        <!--== End Product Area Wrapper ==-->
+
+        <!--== Start Product Banner Area Wrapper ==-->
+        <section class="product-area product-banner-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-title shape-center text-center">
+                            <h5 class="sub-title">SHARE EXPERIENCE</h5>
+                            <h2 class="title">Join the Pet Community</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="banner-product-single-item">
+                            <div class="thumb">
+                                <a href="/services">
+                                    <img src="{% static 'img/shop/banner/1.webp' %}" width="570" height="300"
+                                         alt="Image-HasTech">
+                                </a>
+                            </div>
+                            <div class="content">
+                                <h5 class="title">FORUM</h5>
+                                <h6 class="sub-title">Discuss pet raising experiences in the forum</h6>
+                                <a class="btn-theme btn-theme-color btn-sm" href="/forum">Discuss Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="banner-product-single-item">
+                            <div class="thumb">
+                                <a href="/services">
+                                    <img src="{% static 'img/shop/banner/2.webp' %}" width="570" height="300"
+                                         alt="Image-HasTech">
+                                </a>
+                            </div>
+                            <div class="content">
+                                <h5 class="title">COMMUNITY</h5>
+                                <h6 class="sub-title">Share your pet daily life with the community</h6>
+                                <a class="btn-theme btn-theme-color btn-sm" href="/community_list">Share Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--== End Product Banner Area Wrapper ==-->
+
+        <!-- Chatbot Container -->
+        <div id="chatbot-container">
+            <div id="chatbot-header" onclick="toggleChatbot()">
+                Chat with us!
+                <span id="chatbot-toggle">[+]</span>
+            </div>
+            <div id="chatbot-body">
+                <div id="chat-messages"></div>
+                <div id="chat-input-area">
+                    <input type="text" id="chatInput" placeholder="Type your message...">
+                    <button id="sendButton" onclick="handleChatInput()">Send</button>
+                </div>
+            </div>
+        </div>
+
+
+    </main>
+
+
+{% endblock content %}

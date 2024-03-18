@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+    <main class="main-content">
+        <!--== Start About Area Wrapper ==-->
+        <section class="about-area">
+            <div class="container">
+                <div class="about-item position-relative">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 order-2 order-lg-1">
+                            <div class="about-content">
+                                <div class="section-title shape-left">
+                                    <h5 class="sub-title">About Us</h5>
+                                    <h2 class="title">Our Team</h2>
+                                </div>
+                                <p>This is USYD ELEC9609 Group 15 Project. Our goal is to create a comprehensive pet website offering high-quality pet supplies, appointment-based services, and a platform for sharing pet care experiences and insights.</p>
+                                <p>In today's fast-paced digital age, pet owners often find it challenging to locate reliable resources and services for their beloved animals in one consolidated platform. Our project addresses this gap, providing a one-stop hub that caters to every pet owner's needs. By streamlining the process of purchasing supplies, booking appointments, and sharing experiences, we aim to enhance the overall pet ownership experience, ensuring every pet receives the best care possible.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 order-1 order-lg-2">
+                            <div class="about-thumb">
+                                <img src="{% static 'img/about/about.jpg' %}" width="569" height="577"
+                                     alt="Image-HasTech">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+{% endblock content %}

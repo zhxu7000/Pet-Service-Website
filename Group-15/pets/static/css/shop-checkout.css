@@ -1,0 +1,48 @@
+.card-dontanier {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.card {
+  border: 1px solic #ccc;
+  border-radius: 8px;
+  padding: 5px;
+  text-align: center;
+}
+.card img {
+  width: 96%;
+  height: 150px;
+  margin: 0 auto;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.card:hover {
+  border: 1px solid #92228d;
+}
+.checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.el-checkbox {
+  margin-bottom: 0 !important;
+}
+
+.btn-place-order {
+  display: block;
+  text-align: center;
+  border-radius: 0;
+  padding: 18px 20px 16px;
+  margin-top: 32px;
+  font-size: 16px;
+  background-color: #721b65;
+  border-color: #721b65;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.btn-place-order:hover {
+  background-color: #000;
+  border-color: #000;
+  color: #fff;
+}

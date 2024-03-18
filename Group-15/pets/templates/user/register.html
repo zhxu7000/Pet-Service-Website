@@ -1,0 +1,234 @@
+﻿{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <main class="main-content" id="register">
+        <!--== Start Page Header Area Wrapper ==-->
+        <div class="page-header-area" data-bg-img="{% static 'img/photos/background.jpg' %}">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-header-content">
+                            <h2 class="title">Register</h2>
+                            <nav class="breadcrumb-area">
+                                <ul class="breadcrumb">
+                                    <li><a href="index.html">Home</a></li>
+                                    <li class="breadcrumb-sep">//</li>
+                                    <li>Register</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--== End Page Header Area Wrapper ==-->
+
+        <!--== Start My Account Area Wrapper ==-->
+        <section class="account-area">
+            <div class="container">
+                <el-tabs v-model="activeName">
+                    <el-tab-pane label="User Registration" name="user">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <h5>User Info</h5>
+                                    <div class="register-form-content">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="username">Username <span
+                                                            class="required">*</span></label>
+                                                    <input id="username" name="username" class="form-control"
+                                                           type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="password">Password <span
+                                                            class="required">*</span></label>
+                                                    <input id="password" name="password" class="form-control"
+                                                           type="password">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="confirm_password">Confirm Password <span
+                                                            class="required">*</span></label>
+                                                    <input id="confirm_password" name="confirm_password"
+                                                           class="form-control"
+                                                           type="password">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="email">Email address <span
+                                                            class="required">*</span></label>
+                                                    <input id="email" name="email" class="form-control"
+                                                           type="email">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="age">Phone number<span
+                                                            class="required">*</span></label>
+                                                    <input id="age" name="age" class="form-control"
+                                                           type="number">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <h5>Pet Info</h5>
+                                    <div class="register-form-content">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="name">Pet's name <span
+                                                            class="required">*</span></label>
+                                                    <input id="name" name="name" type="text"
+                                                           class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="breed">Breed <span
+                                                            class="required">*</span></label>
+                                                    <input id="breed" name="breed" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="weight">Body weight <span
+                                                            class="required">*</span></label>
+                                                    <input id="weight" name="weight" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="hair">Color<span
+                                                            class="required">*</span></label>
+                                                    <input id="hair" name="hair" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="food">Food Preference<span
+                                                            class="required">*</span></label>
+                                                    <input id="food" name="food_preference"
+                                                           class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="temperament">Temperament<span
+                                                            class="required">*</span></label>
+                                                    <input id="temperament" name="temperament"
+                                                           class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="fileSelect">Upload your pet image:</label>
+                                                    <input type="file" id="fileSelect" name="photo"
+                                                           class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 register-form-content">
+                                    <div class="form-group mb--0">
+                                        {#                                        <a class="btn-register" href="shop.html">Register</a>#}
+                                        <input type="submit" class="btn-register" value="Register As A User"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </el-tab-pane>
+                    <el-tab-pane label="Seller Registration" name="seller">
+                        <form method="post" enctype="multipart/form-data" action="/seller/register/">
+                            {% csrf_token %}
+
+                            <div class="register-form-content">
+                                <h5>Seller Info</h5>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="username">Username <span
+                                                    class="required">*</span></label>
+                                            <input id="username" name="username" class="form-control"
+                                                   type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="password">Password <span
+                                                    class="required">*</span></label>
+                                            <input id="password" name="password" class="form-control"
+                                                   type="password">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="confirm_password">Confirm Password <span
+                                                    class="required">*</span></label>
+                                            <input id="confirm_password" name="confirm_password" class="form-control"
+                                                   type="password">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="email">Email address <span
+                                                    class="required">*</span></label>
+                                            <input id="email" name="email" class="form-control"
+                                                   type="email">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="age">Age<span
+                                                    class="required">*</span></label>
+                                            <input id="age" name="age" class="form-control"
+                                                   type="number">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 register-form-content">
+                                    <div class="form-group mb--0">
+                                        <input type="submit" class="btn-register" value="Register As A Seller"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </el-tab-pane>
+                </el-tabs>
+            </div>
+        </section>
+        <!--== End My Account Area Wrapper ==-->
+
+    </main>
+
+
+
+    <script type="text/javascript" src="{% static 'js/vue.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/element.min.js' %}"></script>
+
+    <script type="text/javascript">
+        new Vue({
+            el: "#register",
+            data: {
+                activeName: 'user',
+            },
+        });
+    </script>
+
+{% endblock content %}

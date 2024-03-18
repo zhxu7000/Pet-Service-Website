@@ -1,0 +1,76 @@
+﻿{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <main class="main-content">
+        <!--== Start Page Header Area Wrapper ==-->
+        <div class="page-header-area" data-bg-img="{% static 'img/photos/background.jpg' %}">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-header-content">
+                            <h2 class="title">Community</h2>
+                            <nav class="breadcrumb-area">
+                                <ul class="breadcrumb">
+                                    <li><a href="/">Home</a></li>
+                                    <li class="breadcrumb-sep">//</li>
+                                    <li>Community</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--== End Page Header Area Wrapper ==-->
+
+        <!--== Start Blog Area Wrapper ==-->
+        <section class="shopping-cart-area">
+            <div class="container">
+                <div class="my_flex">
+                    <h4 class="title"> Community</h4>
+                    <button class="button btn-primary" onclick="location.href='/community_send'">Add</button>
+                </div>
+                <hr>
+
+                <div class="row" style="margin-top: 24px">
+                    <div class="col-md-12">
+
+                        {% for community_item in community.list %}
+                            <div class="my_box" style="margin-bottom: 8px;padding: 8px 16px">
+                                {# 标题#}
+                                <a href="/community_details/{{ community_item.id }}">
+                                    <h4 style="color: purple">{{ community_item.title }}</h4>
+                                </a>
+                                <div class="my_flex">
+                                    <div>User: {{ community_item.user.username }}</div>
+                                    <div class="my_small_text">{{ community_item.created_at | date:'Y-m-d H:i:s' }}</div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+
+                <div style="margin: 8px 0">
+                    <script>
+                        document.write(Pager({
+                            totalCount: {{ community.count }}, 		// 总条数
+                            pageSize: 10,    			// 每页显示 n条，默认10
+                            buttonSize: 5,   		// 显示按钮个数，默认10
+                            pageParam: 'page',   		// 页面的参数名为'page'，默认为'page'
+                            className: 'pagination', //分页的样式
+                            {#prevButton: '往前',     //上一页按钮#}
+                            {#nextButton: '往后',     //下一页按钮#}
+                            firstButton: 'First',      //第一页按钮
+                            lastButton: 'Last',       //最后一页按钮
+                        }));
+                    </script>
+                </div>
+            </div>
+        </section>
+        <!--== End Blog Area Wrapper ==-->
+    </main>
+{% endblock content %}

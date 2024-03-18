@@ -1,0 +1,357 @@
+﻿{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <main class="main-content" id="shopCheckout">
+        <!--== Start Page Header Area Wrapper ==-->
+        <div class="page-header-area" data-bg-img="{% static 'img/photos/background.jpg' %}">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-header-content">
+                            <h2 class="title">Checkout</h2>
+                            <nav class="breadcrumb-area">
+                                <ul class="breadcrumb">
+                                    <li><a href="index.html">Home</a></li>
+                                    <li class="breadcrumb-sep">//</li>
+                                    <li>Checkout</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--== End Page Header Area Wrapper ==-->
+
+        <!--== Start Shopping Checkout Area Wrapper ==-->
+        <section class="shopping-checkout-wrap">
+            <div class="container">
+                <div class="row" style="width: 1000px;margin: 0 auto">
+                    <div class="col-lg-12">
+                        <!--== Start Order Details Accordion ==-->
+                        <form action="/order/" method="post">
+                            {% csrf_token %}
+                            <div class="checkout-order-details-wrap">
+                                <div
+                                        class="order-details-table-wrap table-responsive"
+                                        style="margin-bottom: 0"
+                                >
+                                    <h2 class="title mb-25">Order Info</h2>
+
+
+                                    <div>
+                                        {# 遍历多个订单#}
+                                        {% for order_item in li_orders %}
+                                            <div style="border: 1px solid #dedede;margin-bottom: 20px;padding: 24px">
+                                                <div class="my_flex">
+                                                    <div>Order {{ forloop.counter }}</div>
+                                                    <div>Total</div>
+                                                </div>
+                                                <hr style="margin: 4px 0">
+                                                {# 当前订单-购物车-商品#}
+                                                <div>
+                                                    <div>seller: {{ order_item.seller.username }}</div>
+                                                    {% for cart_item in order_item.orders.li_cart %}
+                                                        <div class="my_flex" style="margin: 16px">
+                                                            <div>
+                                                                <span>{{ forloop.counter }}.</span>
+                                                                <a href="/shop_details/{{ cart_item.goods.id }}">
+                                                                    <img src="{{ cart_item.goods.image.url }}"
+                                                                         style="width: 50px;height: 40px;object-fit: cover;margin-right: 4px">
+
+                                                                    <span style="text-decoration: underline;font-size: 16px;margin-right: 16px">{{ cart_item.goods.title }}</span>
+                                                                </a>
+                                                                <span>{{ cart_item.goods.price }} × {{ cart_item.count }}</span>
+                                                            </div>
+                                                            <div>
+                                                                <span>${{ cart_item.single_amount }}</span>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                                {# 总数 #}
+                                                <hr>
+                                                <div class="my_flex">
+                                                    <div>Sum</div>
+                                                    <div>${{ order_item.orders.total_amount }}</div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+
+                                        <hr>
+
+                                        {# 总数 #}
+                                        <div class="my_flex">
+                                            <h5>Total</h5>
+                                            <div class="my_total_price">${{ total_price }}</div>
+                                        </div>
+
+                                        <hr>
+
+                                        {# 发货信息 #}
+                                        <div class="my_flex">
+                                            <h5>Delivery Info</h5>
+                                            <div>
+                                                {# 弹出框 添加收货信息 #}
+                                                <a href="javascript:void(0)"
+                                                   data-bs-toggle="modal" data-bs-target="#addDeliveryModal"
+                                                   style="cursor: pointer;color: gray;text-decoration: underline">
+                                                    Add A New Delivery Info
+                                                </a>
+                                                <div>
+                                                    <label for="delivery_info"></label>
+                                                    <select name="delivery_id" id="delivery_info">
+                                                        <option selected disabled value>-- select an delivery info --
+                                                        </option>
+                                                        {% for delivery_info in li_delivery %}
+                                                            <option value="{{ delivery_info.id }}">{{ delivery_info.name }}-{{ delivery_info.phone }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr>
+
+                                        {# 提交按钮 #}
+                                        <button type="submit" class="my_btn">Place order</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                {# 弹窗-添加 收货信息 模态框#}
+                <aside class="modal fade" id="addDeliveryModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body" style="padding: 48px 24px;">
+                                <div>
+                                    <h4>Add Delivery</h4>
+                                </div>
+                                <hr>
+                                <div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                        <span class="pe-7s-close"></span>
+                                    </button>
+                                    <div class="container pt--0 pb--0">
+                                        <form action="/delivery_add/" method="post">
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="name">Name</label>
+                                                        <input id="name" name="name" type="text" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="phone">Phone</label>
+                                                        <input id="phone" name="phone" type="text"
+                                                               class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="email">Email</label>
+                                                        <input id="email" name="email" type="text"
+                                                               class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group mb--0">
+                                                        <label for="addr">Addr</label>
+                                                        <textarea id="addr" name="addr" class="form-control"
+                                                                  placeholder="Your Address"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group mb--0">
+                                                        <label for="notes">Notes</label>
+                                                        <textarea id="notes" name="notes" class="form-control"
+                                                                  placeholder="Notes about your order"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <hr>
+                                                <button class="my_btn" type="submit">Add</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </section>
+        <!--== End Shopping Checkout Area Wrapper ==-->
+    </main>
+
+    <!--=======================Javascript============================-->
+    <script type="text/javascript" src="assets/js/en.js"></script>
+
+    <script type="text/javascript">
+        new Vue({
+            el: "#shopCheckout",
+            data: {
+                step: 1,
+                serviceName: "",
+                time: null,
+                value1: "",
+                value2: "",
+                value3: "",
+                value4: "",
+                value5: "",
+                value6: "",
+                payType: 1,
+                options: [
+                    {
+                        value: "Nursing bath",
+                        label: "Nursing bath",
+                        children: [
+                            {
+                                value: "Trimming foot",
+                                label: "Trimming foot",
+                            },
+                            {
+                                value: "Trimming nails",
+                                label: "Trimming nails",
+                            },
+                            {
+                                value: "Cleaning ears",
+                                label: "Cleaning ears",
+                            },
+                        ],
+                    },
+                    {
+                        value: "Designing of styling",
+                        label: "Designing of styling",
+                    },
+                    {
+                        value: "Exercise/sports",
+                        label: "Exercise/sports",
+                        children: [
+                            {
+                                value: "Taking a walk",
+                                label: "Taking a walk",
+                            },
+                            {
+                                value: "High-intensity exercise",
+                                label: "High-intensity exercise",
+                            },
+                            {
+                                value: "Swimming training",
+                                label: "Swimming training",
+                            },
+                        ],
+                    },
+                    {
+                        value: "Teaching/Instruction",
+                        label: "Teaching/Instruction",
+                        children: [
+                            {
+                                value: "Obedience training",
+                                label: "Obedience training",
+                            },
+                            {
+                                value: "Agility training(basic)",
+                                label: "Agility training(basic)",
+                            },
+                            {
+                                value: "Agility training(advanced)",
+                                label: "Agility training(advanced)",
+                            },
+                            {
+                                value: "Basic desensitization training",
+                                label: "Basic desensitization training",
+                            },
+                            {
+                                value: "Training for food aggression",
+                                label: "Training for food aggression",
+                            },
+                        ],
+                    },
+                    {
+                        value: "Medical services",
+                        label: "Medical services",
+                        children: [
+                            {
+                                value: "Vaccination",
+                                label: "Vaccination",
+                            },
+                            {
+                                value: "Doctor appointment",
+                                label: "Doctor appointment",
+                            },
+                            {
+                                value: "Surgery appointment",
+                                label: "Surgery appointment",
+                            },
+                            {
+                                value: "Rehabilitation services",
+                                label: "Rehabilitation services",
+                            },
+                        ],
+                    },
+                    {
+                        value: "Consulting services",
+                        label: "Consulting services",
+                        children: [
+                            {
+                                value: "Appointment for consultation",
+                                label: "Appointment for consultation",
+                            },
+                        ],
+                    },
+                ],
+            },
+            watch: {
+                value1(value) {
+                    if (value) {
+                        this.value2 = false;
+                        this.value3 = false;
+                    }
+                },
+                value2(value) {
+                    if (value) {
+                        this.value1 = false;
+                        this.value3 = false;
+                    }
+                },
+                value3(value) {
+                    if (value) {
+                        this.value2 = false;
+                        this.value1 = false;
+                    }
+                },
+                value4(value) {
+                    if (value) {
+                        this.value5 = false;
+                        this.value6 = false;
+                    }
+                },
+                value5(value) {
+                    if (value) {
+                        this.value4 = false;
+                        this.value6 = false;
+                    }
+                },
+                value6(value) {
+                    if (value) {
+                        this.value4 = false;
+                        this.value5 = false;
+                    }
+                },
+            },
+        });
+        var locale = ELEMENT.lang.en
+        Vue.use(ELEMENT, {locale})
+    </script>
+
+{% endblock content %}

@@ -1,0 +1,172 @@
+{% extends 'seller/seller_base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <style>
+        .order-line {
+            display: flex;
+            justify-content: space-between;
+
+            border-bottom: 1px solid #e5e5e5;
+            margin-bottom: 16px;
+            padding-bottom: 8px
+        }
+    </style>
+
+    <main class="main-content" id="service_booking_list">
+        <!--== Start Page Header Area Wrapper ==-->
+        <div class="page-header-area" data-bg-img="{% static 'img/photos/background.jpg' %}">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-header-content">
+                            <h2 class="title">Service Bookings</h2>
+                            <nav class="breadcrumb-area">
+                                <ul class="breadcrumb">
+                                    <li>Home</li>
+                                    <li class="breadcrumb-sep">//</li>
+                                    <li>Service Bookings</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="order-line">
+                    <h4 class="title">
+                        Services Bookings</h4>
+                </div>
+                <div class="shopping-cart-form table-responsive">
+                    <table class="table text-center">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Service</th>
+                            <th>User</th>
+                            <th>Pet</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for booking_item in bookings.list %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+
+                                <td>{{ booking_item.created_at }}</td>
+
+                                {# 服务#}
+                                <td>
+                                    <div class="my_flex">
+                                        <img src="{{ booking_item.service_info.image.url }}" class="my_img"/>
+                                        <ul>
+                                            <li class="my_li">
+                                                <span>Title: {{ booking_item.service_info.title }}</span>
+                                            </li>
+                                            <li class="my_li">
+                                                <span>Desc: ${{ booking_item.service_info.desc }}</span>
+                                            </li>
+                                            <li class="my_li">
+                                                <span>Category: ${{ booking_item.service_info.category_name }}</span>
+                                            </li>
+                                            <li class="my_li">
+                                                <span class="my_total_price">Price: ${{ booking_item.service_info.price }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+
+                                {# 用户信息#}
+                                <td>
+                                    <ul>
+                                        <li class="my_li">
+                                            <span>Name: {{ booking_item.user.username }}</span>
+                                        </li>
+                                        <li class="my_li">
+                                            <span>Email: {{ booking_item.user.email }}</span>
+                                        </li>
+                                    </ul>
+                                </td>
+
+                                {# 宠物信息#}
+                                <td>
+                                    <div class="my_flex" style="margin: 0 8px">
+                                        <img src="{{ booking_item.pet_info.photo.url }}" class="my_img">
+                                        <ul>
+                                            <li class="my_li">
+                                                <span>Name: {{ booking_item.pet_info.name }}</span>
+                                            </li>
+                                            <li class="my_li">
+                                                <span>Breed: {{ booking_item.pet_info.breed }}</span>
+                                            </li>
+                                            <li class="my_li">
+                                                <span>Weight: {{ booking_item.pet_info.weight }}</span>
+                                            </li>
+                                            <li class="my_li">
+                                                <span>Hair: {{ booking_item.pet_info.hair }}</span>
+                                            </li>
+                                            <li class="my_li">
+                                                <span>Food Preference: {{ booking_item.pet_info.food_preference }}</span>
+                                            </li>
+                                            <li class="my_li">
+                                                <span>Temperament: {{ booking_item.pet_info.temperament }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td>
+                                    <form action="/seller/service_booking_status_update/" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="booking_id" value="{{ booking_item.id }}"/>
+                                        <div>
+                                            <select name="status" style="width: 150px" class="form-control">
+                                                {% for status_item in bookings.choices_status %}
+                                                    <option value="{{ status_item.0 }}"
+                                                            {% if booking_item.status == status_item.0 %}
+                                                            selected {% endif %}>
+                                                        {{ status_item.1 }}
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
+                                            <div>
+                                                <input type="submit" class="btn-sm btn-primary btn" value="Edit">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+
+                    <div style="margin: 8px 0">
+                        <script>
+                            document.write(Pager({
+                                totalCount: {{ services.count }}, 		// 总条数
+                                pageSize: 10,    			// 每页显示 n条，默认10
+                                buttonSize: 5,   		// 显示按钮个数，默认10
+                                pageParam: 'page',   		// 页面的参数名为'page'，默认为'page'
+                                className: 'pagination', //分页的样式
+                                {#prevButton: '往前',     //上一页按钮#}
+                                {#nextButton: '往后',     //下一页按钮#}
+                                firstButton: 'First',      //第一页按钮
+                                lastButton: 'Last',       //最后一页按钮
+                            }));
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </main>
+
+{% endblock %}

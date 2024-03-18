@@ -1,0 +1,73 @@
+{% extends 'seller/seller_base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <style>
+        .my_form_block {
+            margin-bottom: 8px;
+        }
+    </style>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="title" style="border-bottom: 1px solid #e5e5e5;margin-bottom: 16px;padding-bottom: 8px">
+                    Add Good</h4>
+                <div class="shopping-cart-form table-responsive" style="width: 600px;margin: 20px auto;">
+                    <form action="/seller/good_add/" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="form-group row my_form_block">
+                            <label for="title" class="col-sm-2 control-label">Title</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="title" name="title" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group row my_form_block">
+                            <label for="desc" class="col-sm-2 control-label">Desc</label>
+                            <div class="col-sm-10">
+                                <textarea rows="3" id="desc" name="desc" class="form-control"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group row my_form_block">
+                            <label for="price" class="col-sm-2 control-label">Price</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="price" name="price" class="form-control">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row my_form_block">
+                            <label for="category" class="col-sm-2 control-label">Category</label>
+                            <div class="col-sm-10">
+                                <select name="category" id="category" class="form-control">
+                                    <option selected disabled value>-- select category --
+                                    </option>
+                                    {% for category_item in li_category %}
+                                        <option value="{{ category_item.id }}">{{ category_item.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row my_form_block">
+                            <label for="image_file" class="col-sm-2 control-label">Image</label>
+                            <div class="col-sm-10">
+                                <input type="file" id="image_file" name="image_file" class="form-control">
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 40px;padding: 24px 40px;border-top: 1px solid #d7d7d7">
+                            <input type="submit" value="Submit" class="my_btn">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
